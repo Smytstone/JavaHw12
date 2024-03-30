@@ -28,7 +28,7 @@ public class TodosTest {
     }
 
     @Test
-    public void shouldSearchQuery() {
+    public void shouldSearchQueryTestCase1() {
         SimpleTask simpleTask = new SimpleTask(5, "Позвонить родителям");
 
         String[] subtasks = { "Молоко", "Яйца", "Хлеб" };
@@ -49,6 +49,28 @@ public class TodosTest {
 
         Task[] expected = { meeting };
         Task[] actual = todos.search("Приложение НетоБанка");
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSearchQueryTestCase2() {
+        SimpleTask simpleTask = new SimpleTask(5, "Позвонить родителям");
+
+        Todos todos = new Todos();
+
+        todos.add(simpleTask);
+
+        Task[] expected = { simpleTask };
+        Task[] actual = todos.search("Позвонить родителям");
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSearchQueryTestCase3() {
+        Todos todos = new Todos();
+
+        Task[] expected = {};
+        Task[] actual = todos.search("Позвонить родителям");
         Assertions.assertArrayEquals(expected, actual);
     }
 }
