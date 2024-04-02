@@ -4,15 +4,15 @@ import org.junit.jupiter.api.Test;
 public class TodosTest {
     @Test
     public void shouldAddThreeTasksOfDifferentType() {
-        SimpleTask simpleTask = new SimpleTask(5, "Позвонить родителям");
+        SimpleTask simpleTask = new SimpleTask(5, "Купить Молоко");
 
-        String[] subtasks = { "Молоко", "Яйца", "Хлеб" };
+        String[] subtasks = { "Купить Молоко", "Купить Яйца", "Купить Хлеб" };
         Epic epic = new Epic(55, subtasks);
 
         Meeting meeting = new Meeting(
                 555,
-                "Выкатка 3й версии приложения",
-                "Приложение НетоБанка",
+                "Купить Молоко",
+                "Поход в магазин",
                 "Во вторник после обеда"
         );
 
@@ -29,15 +29,40 @@ public class TodosTest {
 
     @Test
     public void shouldSearchQueryTestCase1() {
-        SimpleTask simpleTask = new SimpleTask(5, "Позвонить родителям");
+        SimpleTask simpleTask = new SimpleTask(5, "Купить Молоко");
 
-        String[] subtasks = { "Молоко", "Яйца", "Хлеб" };
+        String[] subtasks = { "Купить Молоко", "Купить Яйца", "Купить Хлеб" };
         Epic epic = new Epic(55, subtasks);
 
         Meeting meeting = new Meeting(
                 555,
-                "Выкатка 3й версии приложения",
-                "Приложение НетоБанка",
+                "Купить Молоко",
+                "Поход в магазин",
+                "Во вторник после обеда"
+        );
+
+        Todos todos = new Todos();
+
+        todos.add(simpleTask);
+        todos.add(epic);
+        todos.add(meeting);
+
+        Task[] expected = { simpleTask, epic, meeting };
+        Task[] actual = todos.search("Купить Молоко");
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSearchQueryTestCase2() {
+        SimpleTask simpleTask = new SimpleTask(5, "Купить Молоко");
+
+        String[] subtasks = { "Купить Молоко", "Купить Яйца", "Купить Хлеб" };
+        Epic epic = new Epic(55, subtasks);
+
+        Meeting meeting = new Meeting(
+                555,
+                "Купить Молоко",
+                "Поход в магазин",
                 "Во вторник после обеда"
         );
 
@@ -48,29 +73,32 @@ public class TodosTest {
         todos.add(meeting);
 
         Task[] expected = { meeting };
-        Task[] actual = todos.search("Приложение НетоБанка");
-        Assertions.assertArrayEquals(expected, actual);
-    }
-
-    @Test
-    public void shouldSearchQueryTestCase2() {
-        SimpleTask simpleTask = new SimpleTask(5, "Позвонить родителям");
-
-        Todos todos = new Todos();
-
-        todos.add(simpleTask);
-
-        Task[] expected = { simpleTask };
-        Task[] actual = todos.search("Позвонить родителям");
+        Task[] actual = todos.search("Поход в магазин");
         Assertions.assertArrayEquals(expected, actual);
     }
 
     @Test
     public void shouldSearchQueryTestCase3() {
+        SimpleTask simpleTask = new SimpleTask(5, "Купить Молоко");
+
+        String[] subtasks = { "Купить Молоко", "Купить Яйца", "Купить Хлеб" };
+        Epic epic = new Epic(55, subtasks);
+
+        Meeting meeting = new Meeting(
+                555,
+                "Купить Молоко",
+                "Поход в магазин",
+                "Во вторник после обеда"
+        );
+
         Todos todos = new Todos();
 
-        Task[] expected = {};
-        Task[] actual = todos.search("Позвонить родителям");
+        todos.add(simpleTask);
+        todos.add(epic);
+        todos.add(meeting);
+
+        Task[] expected = { };
+        Task[] actual = todos.search("Купить вино");
         Assertions.assertArrayEquals(expected, actual);
     }
 }
